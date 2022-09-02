@@ -58,8 +58,6 @@ substitutions:
 
 
 
-
-
 # steps:
 #   - id: 'tf plan'
 #     name: 'hashicorp/terraform:1.2.6'
