@@ -1,0 +1,101 @@
+steps:
+  - id: 'tf plan'
+    name: 'hashicorp/terraform:1.2.6'
+    entrypoint: 'sh'
+    dir: "terraform/"
+    args:  
+      - '-c'
+      - |
+          echo "run init"
+          terraform init
+          echo "run show"
+          terraform show
+          echo "run plan"
+          terraform plan
+          echo "run apply"
+          terraform apply -auto-approve
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args:
+    - gcloud
+    - functions
+    - deploy
+    - "${_FUNCTION_NAME}"
+    - --region=europe-west1
+    - --source=.
+    - --trigger-bucket=${_BUCKET_NAME}
+    - --runtime=python310
+    - --entry-point=${_ENTRY_POINT}
+    - --set-env-vars 
+    - inbound_bucket_name=${_BUCKET_NAME}
+    - --set-env-vars 
+    - error_bucket_name=${_ER_BUCKET_NAME}
+    - --set-env-vars 
+    - archived_bucket_name=${_AR_BUCKET_NAME}
+    - --set-env-vars 
+    - milestone_topic_name=${_MILESTONE_TOPIC}
+    - --set-env-vars 
+    - projectid=${_PROJECT_ID}
+    
+options:
+  logging: CLOUD_LOGGING_ONLY
+  dynamic_substitutions: true
+ 
+substitutions:
+  _PROJECT_ID: "macro-deck-357611"
+  _FUNCTION_NAME: "cla-inbound-function"
+  _BUCKET_NAME: "macro-deck-357611-inbound_bucket"
+  _ER_BUCKET_NAME: "macro-deck-357611-error_bucket"
+  _AR_BUCKET_NAME: "macro-deck-357611-archive_bucket"
+  _MILESTONE_TOPIC: "cla_milestone_topic"
+  _PROJECT_ID: "macro-deck-357611"
+  _ENTRY_POINT: "hello_gcs"
+
+
+
+
+
+
+
+
+
+
+# steps:
+#   - id: 'tf plan'
+#     name: 'hashicorp/terraform:1.2.6'
+#     entrypoint: 'sh'
+#     dir: "terraform/"
+#     args:  
+#       - '-c'
+#       - |
+#           echo "run init"
+#           terraform init
+#           echo "run show"
+#           terraform show
+#           echo "run plan"
+#           terraform plan
+#           echo "run apply"
+#           terraform apply -auto-approve
+
+#   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#     args:
+#     dir: "source/"
+#     - gcloud
+#     - functions
+#     - deploy
+#     - "${_FUNCTION_NAME}"
+#     - --region=europe-west1
+#     - --source=.
+#     - --trigger-bucket=${_BUCKET_NAME}
+#     - --runtime=python310
+#     - --entry-point=${_ENTRY_POINT}
+#     # - --set-env-vars inbound_bucket_name=${_BUCKET_NAME}
+# options:
+#   logging: CLOUD_LOGGING_ONLY
+#   dynamic_substitutions: true
+ 
+# substitutions:
+#   _PROJECT_ID: "macro-deck-357611"
+#   _FUNCTION_NAME: "cla-terraform-function-test_m1"
+#   _BUCKET_NAME: "macro-deck-357611-clabucket-in-test_m1_test1"
+#   _ENTRY_POINT: "hello_gcs"
