@@ -3,7 +3,7 @@ steps:
     name: 'hashicorp/terraform:1.2.6'
     entrypoint: 'sh'
     # dir: "terraform/"
-    dir: "cloudFunctionCode/terraform/"
+    dir: "terraform/"
     args:  
       - '-c'
       - |
