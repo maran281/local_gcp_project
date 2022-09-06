@@ -2,7 +2,8 @@ steps:
   - id: 'tf plan'
     name: 'hashicorp/terraform:1.2.6'
     entrypoint: 'sh'
-    dir: "terraform/"
+    # dir: "terraform/"
+    dir: "cloudFunctionCode/terraform/"
     args:  
       - '-c'
       - |
@@ -48,7 +49,6 @@ substitutions:
   _ER_BUCKET_NAME: "macro-deck-357611-error_bucket"
   _AR_BUCKET_NAME: "macro-deck-357611-archive_bucket"
   _MILESTONE_TOPIC: "cla_milestone_topic"
-  _PROJECT_ID: "macro-deck-357611"
   _ENTRY_POINT: "hello_gcs"
 
 
