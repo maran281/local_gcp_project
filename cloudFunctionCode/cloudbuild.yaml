@@ -3,7 +3,7 @@ steps:
     name: 'hashicorp/terraform:1.2.6'
     entrypoint: 'sh'
     # dir: "terraform/"
-    dir: "terraform/"
+    dir: "cloudFunctionCode/terraform/"
     args:  
       - '-c'
       - |
@@ -23,7 +23,7 @@ steps:
     - deploy
     - "${_FUNCTION_NAME}"
     - --region=europe-west1
-    - --source=.
+    - --source=cloudFunctionCode/
     - --trigger-bucket=${_BUCKET_NAME}
     - --runtime=python310
     - --entry-point=${_ENTRY_POINT}
