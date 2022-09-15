@@ -49,7 +49,7 @@ def function_start(fileName, context, inTime):
         #Downloading the file to tmp location inside cloud function
         inboundblob = inbound_bucket.blob(fileName)
         print('printing the inbound blob publish time below')
-        print(inboundblob.custom_time)
+        print(inboundblob['custom_time'])
         destination_uri = '{}/{}'.format(folder,fileName)
         inboundblob.download_to_filename(destination_uri)
         print("File has been downloaded inside clouf cuntion at: "+destination_uri)
