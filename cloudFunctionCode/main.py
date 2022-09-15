@@ -20,9 +20,6 @@ project_id = os.environ.get("projectid", "none")
 def hello_gcs(event, context):
     
     file = event
-    filetimestamp = file['created']
-    print("Printing the timestamp of the file")
-    print(filetimestamp)
     fName = file['name']
     if fName.endswith(".json"):
         function_start(fName, context, inTimeFormated)
@@ -51,6 +48,8 @@ def function_start(fileName, context, inTime):
         
         #Downloading the file to tmp location inside cloud function
         inboundblob = inbound_bucket.blob(fileName)
+        print('printing the inbound blob publish time below')
+        print(inboundblob.custom_time)
         destination_uri = '{}/{}'.format(folder,fileName)
         inboundblob.download_to_filename(destination_uri)
         print("File has been downloaded inside clouf cuntion at: "+destination_uri)
