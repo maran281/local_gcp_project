@@ -49,10 +49,11 @@ def function_start(fileName, context, inTime):
         #Downloading the file to tmp location inside cloud function
         inboundblob = inbound_bucket.blob(fileName)
         print('printing the inbound blob publish time below')
-        print(inboundblob.time_created)
+        # print(inboundblob.time_created)
+        print(inboundblob["timeCreated"])
         destination_uri = '{}/{}'.format(folder,fileName)
         inboundblob.download_to_filename(destination_uri)
-        print("File has been downloaded inside clouf cuntion at: "+destination_uri)
+        print("File has been downloaded inside cloud function at: "+destination_uri)
 
         #Traversing the json file stored in tmp to publish
         #individual json documetns from the file to pubsub
