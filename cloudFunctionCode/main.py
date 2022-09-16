@@ -21,6 +21,8 @@ def hello_gcs(event, context):
     
     file = event
     fName = file['name']
+    timestamp1 = context.timestamp
+    print('Publish time is: '+ timestamp1)
     if fName.endswith(".json"):
         function_start(fName, context, inTimeFormated)
         #print('processing file '+fName)
@@ -47,10 +49,11 @@ def function_start(fileName, context, inTime):
         topic_path = publisher_client.topic_path(project_id, topic_name)
         
         #Downloading the file to tmp location inside cloud function
-        inboundblob = inbound_bucket.blob(fileName)
-        print('printing the inbound blob publish time below')
-        # print(inboundblob.time_created)
-        print(inboundblob["timeCreated"])
+        # inboundblob = inbound_bucket.blob(fileName)
+        # inboundblobTime = inbound_bucket.time_created(fileName)
+        # print('printing the inbound blob publish time below')
+        # # print(inboundblob.time_created)
+        # print(inboundblobTime)
         destination_uri = '{}/{}'.format(folder,fileName)
         inboundblob.download_to_filename(destination_uri)
         print("File has been downloaded inside cloud function at: "+destination_uri)
